@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/TestStart.unity
+    guid: 4358b7fbcff286e41a61ba23bd2c117b
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/12.unity
+    guid: c873e938f1291b541851b3e35a71f534
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/4.unity
+    guid: 3b0bc13102f2ba342a8da327fadb031d
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/7.unity
+    guid: 995ce93155499654495728cfcaabacbc
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/15.unity
+    guid: 1400e10f786ec5f4b8dcdd42e439fe12
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/3.unity
+    guid: e04ec0155e4a89943a7612a85ddae478
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/13.unity
+    guid: a2a7c51a697e90c47bc601c9d919869c
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/11.unity
+    guid: 62d809743a4a48e4f81649db2cb3df75
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/9.unity
+    guid: a53bf10688f138a40a436b6d857143a0
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/14.unity
+    guid: 5396cac7d0f58a44c96ea703a5b32ebf
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/5.unity
+    guid: f42050c0ffa12454cad97a4e888cbcd4
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/16.unity
+    guid: 81fc6a2bf25fbf24eb7b03baacc4f1f2
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/2.unity
+    guid: f75a3f768d4817b4db8d7e756cf4d128
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/6.unity
+    guid: 4486f80b44cdcaf43b6edad0eab9d6fa
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/8.unity
+    guid: 478c82559f0ee83489d8ef4f5b3175b3
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/1.unity
+    guid: 24784c1d5da334347ba981854cb9568a
+  - enabled: 1
+    path: Assets/Scenes/Prestudy/Pilot/10.unity
+    guid: e69299371a8e4ab458591c2430a3faed
+  m_configObjects:
+    Unity.XR.OpenVR.Settings: {fileID: 11400000, guid: b5ca8b33d874543909b94ce2bf4f345d,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e513617623fc146b3a08d88478a9b945,
+      type: 2}
