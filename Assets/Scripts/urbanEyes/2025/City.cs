@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class City : MonoBehaviour
+public static class City : MonoBehaviour
 {
     List<(Vector2, Vector2)> BuildingCoordinates = new List<(Vector2, Vector2)>();
     List<(Vector2, Vector2)> RoadCoordinates = new List<(Vector2, Vector2)>();
