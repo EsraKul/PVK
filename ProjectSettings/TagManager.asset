@@ -17,6 +17,7 @@ TagManager:
   - left
   - RightPlane
   - pointer
+  - goal
   layers:
   - Default
   - TransparentFX
