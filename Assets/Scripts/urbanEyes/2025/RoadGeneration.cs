@@ -7,14 +7,21 @@ using UnityEngine;
 public class RoadGeneration : MonoBehaviour {
     public GameObject RoadPrefab;
     public GameObject stripePrefab;
+    public GameObject sideWalkPrefab;
     public Vector3 pointA = new Vector3(0, 0, 0);
     public Vector3 pointB = new Vector3(10, 10, 10);
 
 
-    private float roadLen = 110.192f;
+    private float roadLen;//= 110.192f;
+    private float roadWidth;
+    private float swLen;
+    private float swWidth;
     // Start is called before the first frame update
     void Start() {
         roadLen = Vector3.Dot(RoadPrefab.GetComponent<Renderer>().bounds.size, RoadPrefab.transform.localRotation * Vector3.right);
+        roadWidth = Vector3.Dot(RoadPrefab.GetComponent<Renderer>().bounds.size, RoadPrefab.transform.localRotation * Vector3.forward);
+        swLen = Vector3.Dot(sideWalkPrefab.GetComponent<Renderer>().bounds.size, sideWalkPrefab.transform.localRotation * Vector3.forward);
+        swWidth = Vector3.Dot(sideWalkPrefab.GetComponent<Renderer>().bounds.size, sideWalkPrefab.transform.localRotation * Vector3.right);
     }
 
     // Update is called once per frame
@@ -24,8 +31,10 @@ public class RoadGeneration : MonoBehaviour {
     }
     public float remainingDistance = 0.5f * 110.192f - 12;
     private void ScaleRoad() {
+
         float dist = Vector3.Distance(pointA, pointB);
         Vector3 direction = (pointB - pointA).normalized;
+        gameObject.transform.rotation = Quaternion.LookRotation(direction); // this might make Quaternion.LookRotation(direction) * Quaternion.Euler(0, 270, 0) unnecesary
 
 
         float numRoads = Mathf.Abs(Mathf.FloorToInt(dist / roadLen));
@@ -37,9 +46,6 @@ public class RoadGeneration : MonoBehaviour {
             GameObject roadSegment = Instantiate(RoadPrefab, spawnPos, Quaternion.identity);
             roadSegment.transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 270, 0);
             roadSegment.transform.SetParent(transform);
-
-            // add the script to the segment
-            // roadSegment
         }
 
         // NOTE: this would be necessary if the disance isn't a multiple of roadlen but if we use grids I can just set roadlen to fit in a grid
@@ -59,7 +65,26 @@ public class RoadGeneration : MonoBehaviour {
 
 
                } */
+        SideWalk();
         PlaceStripes(numRoads * roadLen, direction);
+    }
+    void SideWalk() {
+        float dist = Vector3.Distance(pointA, pointB);
+        Vector3 direction = (pointB - pointA).normalized;
+
+
+        float numSegs = Mathf.Abs(Mathf.FloorToInt(dist / swLen));
+        Debug.Log(roadWidth);
+        for (int j = -1; j < 2; j += 2) {
+            Vector3 startPos = pointA + direction * (swLen / 2) + j * gameObject.transform.right * (roadWidth / 2 - swWidth / 2);
+
+            for (int i = 0; i < numSegs; i++) {
+                Vector3 spawnPos = startPos + direction * roadLen * i;
+                GameObject sideWalkSegment = Instantiate(sideWalkPrefab, spawnPos, Quaternion.identity);
+                sideWalkSegment.transform.rotation = gameObject.transform.rotation;
+                sideWalkSegment.transform.SetParent(transform);
+            }
+        }
     }
     public float StripeSpacing = 1;
     void PlaceStripes(float roadLen, Vector3 direction) {

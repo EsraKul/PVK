@@ -48,6 +48,8 @@ MonoBehaviour:
     type: 3}
   stripePrefab: {fileID: 208389675538698495, guid: 322578be42b2fbf4ba184afbdfdfc268,
     type: 3}
+  sideWalkPrefab: {fileID: 7285902921933764821, guid: 2ce171c9124b8f846829950ef152eead,
+    type: 3}
   pointA: {x: 0, y: 0, z: 0}
   pointB: {x: 200, y: 0, z: 10}
   remainingDistance: 43.096
