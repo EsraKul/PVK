@@ -37,28 +37,34 @@ public class RoadGeneration : MonoBehaviour {
             GameObject roadSegment = Instantiate(RoadPrefab, spawnPos, Quaternion.identity);
             roadSegment.transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 270, 0);
             roadSegment.transform.SetParent(transform);
+
+            // add the script to the segment
+            // roadSegment
         }
+
+        // NOTE: this would be necessary if the disance isn't a multiple of roadlen but if we use grids I can just set roadlen to fit in a grid
 
         // float remainingDistance = Vector3.Distance(pointA + direction * numRoads * roadLen, pointB);
-        float remainingDistance = dist - roadLen * numRoads;
-        if (remainingDistance > 0) {
-            // starting position of the last road segment
-            Vector3 lastPos = startPos + direction * roadLen * numRoads;
-            GameObject lastRoad = Instantiate(RoadPrefab, lastPos, Quaternion.identity);
-            lastRoad.transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 270, 0);
-            lastRoad.transform.SetParent(transform);
+        /*        float remainingDistance = dist - roadLen * numRoads;
+               if (remainingDistance > 0) {
+                   // starting position of the last road segment
+                   Vector3 lastPos = startPos + direction * roadLen * numRoads;
+                   GameObject lastRoad = Instantiate(RoadPrefab, lastPos, Quaternion.identity);
+                   lastRoad.transform.rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(0, 270, 0);
+                   lastRoad.transform.SetParent(transform);
 
-            Vector3 scale = lastRoad.transform.localScale;
-            scale.x = remainingDistance / roadLen;
-            lastRoad.transform.localScale = scale;
+                   Vector3 scale = lastRoad.transform.localScale;
+                   scale.x = remainingDistance / roadLen;
+                   lastRoad.transform.localScale = scale;
 
 
-        }
+               } */
+        PlaceStripes(numRoads * roadLen, direction);
     }
     public float StripeSpacing = 1;
-    void PlaceStripes() {
+    void PlaceStripes(float roadLen, Vector3 direction) {
         Vector3 right = gameObject.transform.localRotation * Vector3.right;
-        float roadLen = Vector3.Dot(gameObject.GetComponent<Renderer>().bounds.size, right);
+        // float roadLen = Vector3.Dot(gameObject.GetComponent<Renderer>().bounds.size, right);
         float stripeLen = Vector3.Dot(stripePrefab.GetComponent<Renderer>().bounds.size, stripePrefab.transform.localRotation * Vector3.right);
         // float spacing = roadLen / (numStripes + 1);
 
@@ -69,14 +75,15 @@ public class RoadGeneration : MonoBehaviour {
             numStripes--;
         }
 
-        Vector3 startPos = gameObject.transform.position - gameObject.transform.right * (roadLen / 2) + stripePrefab.transform.forward * (stripeLen / 2);
+        Vector3 startPos = gameObject.transform.position + gameObject.transform.forward * stripeLen / 2;// - gameObject.transform.right * (roadLen / 2) + stripePrefab.transform.forward * (stripeLen / 2);
         for (int i = 0; i < numStripes; i++) {
             // Calculate the position for each new object along the target's local forward direction
-            Vector3 position = startPos - gameObject.transform.right * StripeSpacing * i + gameObject.transform.up * 0.01f;
+            // Vector3 position = startPos + gameObject.transform.forward * StripeSpacing * i + gameObject.transform.up * 0.01f;
+            Vector3 position = startPos + direction * StripeSpacing * i + gameObject.transform.up * 0.01f;
 
             // Instantiate the object at the calculated position
-            Instantiate(stripePrefab, position, Quaternion.LookRotation(gameObject.transform.forward));
-
+            GameObject stripe = Instantiate(stripePrefab, position, Quaternion.LookRotation(direction) * Quaternion.Euler(0, 270, 0)/*  Quaternion.LookRotation(gameObject.transform.right) */);
+            stripe.transform.SetParent(transform);
         }
     }
 }
