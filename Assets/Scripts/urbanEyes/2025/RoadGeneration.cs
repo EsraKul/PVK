@@ -8,6 +8,7 @@ public class RoadGeneration : MonoBehaviour {
     public GameObject RoadPrefab;
     public GameObject stripePrefab;
     public GameObject sideWalkPrefab;
+    public GameObject curbPrefab;
     public Vector3 pointA = new Vector3(0, 0, 0);
     public Vector3 pointB = new Vector3(10, 10, 10);
 
@@ -16,12 +17,16 @@ public class RoadGeneration : MonoBehaviour {
     private float roadWidth;
     private float swLen;
     private float swWidth;
+    private float curbLen;
+    private float curbWidth;
     // Start is called before the first frame update
     void Start() {
         roadLen = Vector3.Dot(RoadPrefab.GetComponent<Renderer>().bounds.size, RoadPrefab.transform.localRotation * Vector3.right);
         roadWidth = Vector3.Dot(RoadPrefab.GetComponent<Renderer>().bounds.size, RoadPrefab.transform.localRotation * Vector3.forward);
         swLen = Vector3.Dot(sideWalkPrefab.GetComponent<Renderer>().bounds.size, sideWalkPrefab.transform.localRotation * Vector3.forward);
         swWidth = Vector3.Dot(sideWalkPrefab.GetComponent<Renderer>().bounds.size, sideWalkPrefab.transform.localRotation * Vector3.right);
+        curbLen = -Vector3.Dot(curbPrefab.GetComponent<Renderer>().bounds.size, curbPrefab.transform.localRotation * Vector3.right);
+        curbWidth = Vector3.Dot(curbPrefab.GetComponent<Renderer>().bounds.size, curbPrefab.transform.localRotation * Vector3.forward);
     }
 
     // Update is called once per frame
@@ -69,20 +74,29 @@ public class RoadGeneration : MonoBehaviour {
         PlaceStripes(numRoads * roadLen, direction);
     }
     void SideWalk() {
-        float dist = Vector3.Distance(pointA, pointB);
+        float dist = Vector3.Distance(pointA, pointB); // total length of road segments
         Vector3 direction = (pointB - pointA).normalized;
 
 
-        float numSegs = Mathf.Abs(Mathf.FloorToInt(dist / swLen));
+        float numSegs = Mathf.Abs(Mathf.FloorToInt(dist / swLen)); // number of sidewalk segments
         Debug.Log(roadWidth);
         for (int j = -1; j < 2; j += 2) {
-            Vector3 startPos = pointA + direction * (swLen / 2) + j * gameObject.transform.right * (roadWidth / 2 - swWidth / 2);
+            Vector3 startPos = pointA + direction * (swLen / 2) + j * gameObject.transform.right * (roadWidth / 2 - swWidth / 2) + gameObject.transform.up * 0.1f;
 
+            // generate sidewalk
             for (int i = 0; i < numSegs; i++) {
                 Vector3 spawnPos = startPos + direction * roadLen * i;
                 GameObject sideWalkSegment = Instantiate(sideWalkPrefab, spawnPos, Quaternion.identity);
                 sideWalkSegment.transform.rotation = gameObject.transform.rotation;
                 sideWalkSegment.transform.SetParent(transform);
+            }
+            // generate curb
+            Vector3 curbStartPos = pointA + direction * (curbLen / 2) - j * gameObject.transform.right * (roadWidth / 2 - curbWidth / 2);
+            float numBlocks = Mathf.Abs(Mathf.FloorToInt(dist / curbLen)) - 4; // hack solution - try harder
+            for (int i = 0; i < numBlocks; i++) {
+                Vector3 spawnPos = curbStartPos + direction * curbLen * i;
+                GameObject curbBrick = Instantiate(curbPrefab, spawnPos, Quaternion.LookRotation(direction) * Quaternion.Euler(0, 270, 0));
+                curbBrick.transform.SetParent(transform);
             }
         }
     }

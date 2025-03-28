@@ -50,6 +50,8 @@ MonoBehaviour:
     type: 3}
   sideWalkPrefab: {fileID: 7285902921933764821, guid: 2ce171c9124b8f846829950ef152eead,
     type: 3}
+  curbPrefab: {fileID: 7947786589704308054, guid: 35f9a92d3f4a00a4990dc01da2276a02,
+    type: 3}
   pointA: {x: 0, y: 0, z: 0}
   pointB: {x: 200, y: 0, z: 10}
   remainingDistance: 43.096
